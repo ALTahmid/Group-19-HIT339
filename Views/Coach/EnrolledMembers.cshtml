@@ -1,0 +1,92 @@
+﻿@model tennis.Models.Schedule
+
+@{
+    ViewData["Title"] = "Enrolled Members";
+}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f9fc;
+        margin: 20px;
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin: 15px;
+        padding: 20px;
+        width: 300px;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    .card-header {
+        font-weight: bold;
+        border-bottom: 2px solid #4CAF50;
+        margin-bottom: 15px;
+        color: #4CAF50;
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #4CAF50;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<h2>Enrolled Members for @Model.Name (@Model.Date.ToShortDateString())</h2>
+
+<div class="container">
+    @if (!Model.MemberSchedules.Any())
+    {
+        <div class="alert alert-info" style="text-align:center; width: 100%;">
+            No members enrolled for this schedule.
+        </div>
+    }
+    else
+    {
+        @foreach (var memberSchedule in Model.MemberSchedules)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @memberSchedule.Member.FirstName @memberSchedule.Member.LastName
+                </div>
+                <div class="card-body">
+                    <p><strong>Email:</strong> @memberSchedule.Member.Email</p>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div>
+    <a class="back-link" asp-action="MySchedules">Back to My Schedules</a>
+</div>

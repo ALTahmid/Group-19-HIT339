@@ -1,0 +1,97 @@
+﻿@model IEnumerable<tennis.Models.Coach>
+
+@{
+    ViewData["Title"] = "Coaches";
+}
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f9fc;
+        margin: 20px;
+    }
+
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin: 15px;
+        padding: 20px;
+        width: 300px;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    .card-header {
+        font-weight: bold;
+        border-bottom: 2px solid #4CAF50;
+        margin-bottom: 15px;
+        color: #4CAF50;
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    .card-body {
+        margin-bottom: 15px;
+    }
+
+    .card-body p {
+        margin: 5px 0;
+    }
+
+    .profile-link {
+        text-align: center;
+        display: block;
+        margin-top: 10px;
+        color: #4CAF50;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .profile-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<h2>Coaches</h2>
+
+<div class="container">
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" style="text-align:center; width: 100%;">
+            No coaches available.
+        </div>
+    }
+    else
+    {
+        @foreach (var coach in Model)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @coach.FirstName @coach.LastName
+                </div>
+                <div class="card-body">
+                    <p><strong>Biography:</strong></p>
+                    <p>@coach.Biography</p>
+                </div>
+                <a href="@Url.Action("CoachProfile", "Member", new { id = coach.CoachId })" class="profile-link">View Profile</a>
+            </div>
+        }
+    }
+</div>

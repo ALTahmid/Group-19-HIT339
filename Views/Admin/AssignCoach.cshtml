@@ -1,0 +1,140 @@
+﻿@model List<ScheduleViewModel>
+
+@{
+    ViewData["Title"] = "Assign Coach";
+}
+
+<style>
+    body {
+        font-family: 'Verdana', sans-serif;
+        background-color: #f4f7fa;
+        margin: 20px;
+        color: #333;
+    }
+
+    h1 {
+        color: #2C3E50;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+    }
+
+    h4 {
+        color: #34495E;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.6em;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 30px 0;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: calc(33% - 20px);
+        min-width: 250px;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h5 {
+        color: #2980B9;
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        border: 2px solid #3498DB;
+        border-radius: 5px;
+        padding: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .form-control:focus {
+        border-color: #2980B9;
+        outline: none;
+        box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #27AE60;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+        background-color: #219653;
+        transform: translateY(-2px);
+    }
+
+    .back-link {
+        text-decoration: none;
+        color: #2980B9;
+        font-weight: bold;
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+        font-size: 1.1em;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+
+</style>
+
+<h1>Coach Assignment</h1>
+
+<h4>Next Schedules</h4>
+<hr />
+<div class="card-container">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="card">
+            <h5>@Model[i].Name</h5>
+            <p><strong>Location:</strong> @Model[i].Location</p>
+            <p><strong>Date:</strong> @Model[i].Date.ToString("MM/dd/yyyy")</p>
+            <p><strong>Current Coach:</strong> @Model[i].CoachName</p>
+            <form asp-action="AssignCoach" method="post">
+                <select name="coachId" class="form-control">
+                    <option value="">Select Coach</option>
+                    @foreach (var coach in (SelectList)ViewBag.Coaches)
+                    {
+                        <option value="@coach.Value">@coach.Text</option>
+                    }
+                </select>
+                <input type="hidden" name="scheduleId" value="@Model[i].ScheduleId" />
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    }
+</div>
+
+<div>
+    <a class="back-link" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+    
